@@ -9,6 +9,3 @@ You can go alongside me or see my progress through different branches of this re
 <a href="https://www.linkedin.com/in/nirjalpaudel/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Linkedin_icon.svg/1024px-Linkedin_icon.svg.png" width="50" height="50"></a>
 </span>
 
-<hr></hr>
-Lets start learning node. I will and i challenge you to do that too. ❤
-
