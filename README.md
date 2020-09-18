@@ -1,6 +1,6 @@
 # 30 days Node JS 
-> Challenging myself my going 30 days straight learning into node js.
-> Starting the challenge from 20 September 2020
+> Challenging myself my going 30 days straight learning into node js.<br>
+> Starting the challenge from **20 September 2020**
 
 ## Lets go along
 You can go alongside me or see my progress through different branches of this repository.<br>
