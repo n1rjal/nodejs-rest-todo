@@ -5,6 +5,7 @@ module.exports = () => {
         .connect("mongodb://localhost/api", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            useCreateIndex: true,
         })
         .then(console.log("Connected to localhost Database"))
         .catch((err) => {
