@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const taskModel = require("../models/taskmodel");
+const taskOwnerAuth = require("./helper/taskowner");
 router = express();
 
 router.get("/help", (req, res) => {
@@ -13,14 +14,15 @@ router.get("/help", (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    var tasks = await taskModel.find();
+    console.log(req.user);
+    var tasks = await taskModel.find({ user: req.user.id });
     res.send(tasks);
 });
 
 router
-    .get("/:id", async (req, res) => {
+    .get("/:id", taskOwnerAuth, async (req, res) => {
         await taskModel
-            .findById(req.params.id)
+            .findOne({ id: req.params.id })
             .then((task) => {
                 task !== null
                     ? res.send(task)
@@ -28,7 +30,7 @@ router
             })
             .catch((err) => res.send({ err: "404 not found", err }));
     })
-    .delete("/:id", async (req, res) => {
+    .delete("/:id", taskOwnerAuth, async (req, res) => {
         await taskModel
             .findByIdAndDelete(req.params.id)
             .then((ress) => {
@@ -41,14 +43,17 @@ router
     });
 
 router.post("/create", async (req, res) => {
-    var task = new taskModel(req.body);
+    console.log(req.user);
+    var data = { ...req.body, user: req.user.id };
+    console.log("DATA => ", data);
+    var task = new taskModel(data);
     task.save((err, result) => {
         if (err) throw err;
         res.send(result);
     });
 });
 
-router.post("/:id/update", async (req, res) => {
+router.post("/:id/update", taskOwnerAuth, async (req, res) => {
     await taskModel
         .findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
         .then((task) => res.send(task))

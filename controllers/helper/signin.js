@@ -1,16 +1,17 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userModel = require("../../models/usermodel");
-const { validationResult, body } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 const signIn = async (req, res, next) => {
-    console.log(req.body);
     var errors = validationResult(req);
+    if (req.user) {
+        res.status(400).send({ err: "Already signed In" });
+    }
     if (!errors.isEmpty()) {
         res.status(400).send(errors);
     } else {
-        var user = await userModel.find({ username: req.body.username });
-        console.log(user);
+        const user = await userModel.findOne({ username: req.body.username });
         bcrypt
             .compare(req.body.password, user.password)
             .then((result) => {
@@ -20,12 +21,14 @@ const signIn = async (req, res, next) => {
                             username: user.username,
                             password: user.password,
                         },
-                        "secretkey"
+                        "secretkey",
+                        { expiresIn: "1h" }
                     );
                     res.send({
                         success: "loggedin",
                         token: token,
-                        user: user,
+                        user_id: user.id,
+                        user: user.username,
                     });
                 } else {
                     res.status(400).send({

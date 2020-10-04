@@ -5,7 +5,9 @@ const { validationResult, body } = require("express-validator");
 
 const signUp = (req, res, next) => {
     var errors = validationResult(req);
-
+    if (req.user) {
+        res.status(400).send({ err: "Already signed In" });
+    }
     if (!errors.isEmpty()) {
         res.status(400).send(errors);
     } else {
