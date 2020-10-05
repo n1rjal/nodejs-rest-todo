@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { validationResult, body } = require("express-validator");
-const signUp = require("./helper/signup");
-const signIn = require("./helper/signin");
+const signUp = require("./auth/signup");
+const signIn = require("./auth/signin");
 const userModel = require("../models/usermodel");
 
 router = Router();

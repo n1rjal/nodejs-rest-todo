@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const taskModel = require("../models/taskmodel");
-const taskOwnerAuth = require("./helper/taskowner");
+const taskOwnerAuth = require("./auth/taskowner");
 router = express();
 
 router.get("/help", (req, res) => {
@@ -14,7 +14,6 @@ router.get("/help", (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    console.log(req.user);
     var tasks = await taskModel.find({ user: req.user.id });
     res.send(tasks);
 });
@@ -22,13 +21,16 @@ router.get("/", async (req, res) => {
 router
     .get("/:id", taskOwnerAuth, async (req, res) => {
         await taskModel
-            .findOne({ id: req.params.id })
+            .findOne({ _id: req.params.id })
             .then((task) => {
                 task !== null
                     ? res.send(task)
                     : res.status(404).send("404 not found");
             })
-            .catch((err) => res.send({ err: "404 not found", err }));
+            .catch((err) => {
+                console.log(err);
+                res.send({ err: "404 not found", err });
+            });
     })
     .delete("/:id", taskOwnerAuth, async (req, res) => {
         await taskModel
@@ -60,4 +62,4 @@ router.post("/:id/update", taskOwnerAuth, async (req, res) => {
         .catch((err) => res.status(404).send({ err: "404 not found" }));
 });
 
-module.exports = router;
+module.exports = router;    
