@@ -1,7 +1,16 @@
-# 30 days Node JS
+# Part of 30 days Node JS challenge
 
 > Challenging myself my going 30 days straight learning into node js.<br>
 > Starting the challenge from **20 September 2020**
+
+## Run the code:
+To run the code open up your favorite terminal and type the following
+```
+git clone https://github.com/n1rjal/nodejs-rest-todo.git
+cd nodejs-rest-todo
+git checkout day-14
+npm install && npm run
+```
 
 ## Motivation:
 
